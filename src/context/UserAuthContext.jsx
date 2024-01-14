@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase/FirebaseConfig";
-import { addDoc, doc, endAt, getDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, endAt, getDoc, getDocs, setDoc } from "firebase/firestore";
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -78,6 +79,16 @@ const UserAuthContextProvider = ({ children }) => {
       console.log(errorMessage);
     }
   };
+
+  const resetPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      const errorMessage = error.message;
+      const errorCode = error.code;
+      console.log(errorMessage);
+    }
+  }
 
   const googleSignIn = async () => {
     try {
@@ -155,6 +166,7 @@ const UserAuthContextProvider = ({ children }) => {
     isLoading,
     registerUser,
     loginUser,
+    resetPassword,
     googleSignIn,
     facebookSignIn,
     signOutUser,

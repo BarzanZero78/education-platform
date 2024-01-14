@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -104,7 +105,6 @@ const MainContextProvider = ({ children }) => {
         courseDescription,
         coursePrice,
         userName: userData.userName,
-        userImage: userData.userImage,
         selectedInstructor,
       });
     } catch (error) {
@@ -170,55 +170,167 @@ const MainContextProvider = ({ children }) => {
   const enrollCourse = async (courseId, courseData) => {
     try {
       const enrollmentsRef = collection(db, `courses/${courseId}/enrollments`);
-      await addDoc(enrollmentsRef, courseData);
+      await addDoc(enrollmentsRef, {
+        courseData,
+        courseId,
+      });
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const fetchEnrollesForUser = async (userId, courseId) => {
-    const enrollmentsRef = collection(db, `courses/${courseId}/enrollments`);
-    const userEnrollmentsQuery = query(enrollmentsRef, where("userData.userId", '==', userId));
-
+  const fetchCoursesByInstructor = async (instructorId) => {
     try {
-      const querySnapshot = await getDocs(userEnrollmentsQuery);
-      const enrollments = querySnapshot.docs.map((doc) => doc.data());
-      return enrollments;
-    } catch(error) {
-      console.log(error.message);
+      const coursesRef = collection(db, "courses");
+      const querySnapshot = await getDocs(
+        query(coursesRef, where("selectedInstructor.id", "==", instructorId))
+      );
+
+      const courses = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return courses;
+    } catch (error) {
+      console.error("Error fetching courses by instructor:", error);
+      return [];
     }
-  }
+  };
 
-  const fetchEnrollmentsWithCourse = async () => {
+  const fetchEnrollmentsForUser = async (courseId, userId) => {
     try {
-      const coursesCollection = collection(db, 'courses');
-      const querySnapshot = await getDocs(coursesCollection);
-      const fetchedEnrollments = [];
+      const enrollmentsRef = collection(db, `courses/${courseId}/enrollments`);
+      const querySnapshot = await getDocs(
+        query(enrollmentsRef, where("courseData.userData.userId", "==", userId))
+      );
 
-      for(const doc of querySnapshot.docs) {
-        const course = {
+      const enrollments = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return enrollments;
+    } catch (error) {
+      const errorMessage = error.message;
+      const errorCode = error.code;
+      console.log(errorMessage);
+      return [];
+    }
+  };
+
+  const fetchEnrollments = async (courseId) => {
+    try {
+      const enrollmentsRef = collection(db, `courses/${courseId}/enrollments`);
+      const querySnapshot = await getDocs(
+        query(enrollmentsRef, orderBy("timestamp", "desc"))
+      );
+
+      const enrollments = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return enrollments;
+    } catch (error) {
+      console.log(error.message);
+      return [];
+    }
+  };
+
+  const fetchActiveCoursesForUser = async (userId) => {
+    try {
+      const allEnrollments = [];
+
+      for (const course of courses) {
+        const courseId = course.id;
+        const enrollmentsRef = collection(
+          db,
+          `courses/${courseId}/enrollments`
+        );
+        const querySnapshot = await getDocs(
+          query(
+            enrollmentsRef,
+            where("courseData.userData.userId", "==", userId)
+          )
+        );
+
+        const enrollments = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
-          enrollment: [],
-        };
+        }));
 
-        const enrollmentsRef = collection(db, 'courses', doc.id, 'enrollments');
-        const enrollmentsSnapshot = await getDocs(enrollmentsRef);
-        enrollmentsSnapshot.forEach((enrollmentDoc) => {
-          course.enrollment.push({
-            enrollmentId: enrollmentDoc.id,
-            ...enrollmentDoc.data(),
-          });
-        });
-
-        fetchedEnrollments.push(course);
-
-        setCourses(fetchedEnrollments);
+        allEnrollments.push(...enrollments);
       }
-    } catch(error) {
+
+      return allEnrollments;
+    } catch (error) {
+      const errorMessage = error.message;
+      const errorCode = error.code;
+      console.log(errorMessage);
+      return [];
+    }
+  };
+
+  const fetchAllActiveCourses = async (courseId) => {
+    try {
+      const enrollmentsRef = collection(db, `courses/${courseId}/enrollments`);
+      const querySnapshot = await getDocs(
+        query(enrollmentsRef, where("courseData.isCourseActive", "==", true))
+      );
+
+      const enrollments = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return enrollments;
+    } catch (error) {
       console.log(error.message);
     }
-  }
+  };
+
+  const createComment = async (courseId, commentData) => {
+    try {
+      const commentsRef = collection(db, `courses/${courseId}/comments`);
+      await addDoc(commentsRef, commentData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const removeComment = async (courseId, userId) => {
+    try {
+      const commentsRef = collection(db, `courses/${courseId}/comments`);
+      const querySnapshot = await getDocs(
+        query(commentsRef, where("commentData.userData.userId", "==", userId))
+      );
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const fetchCommentsWithCourse = async (courseId) => {
+    try {
+      const commentsRef = collection(db, `courses/${courseId}/comments`);
+      const querySnapshot = await getDocs(
+        query(commentsRef, orderBy("timestamp", "desc"))
+      );
+
+      const comments = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return comments;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const context = {
     trustedComapnies,
@@ -230,8 +342,14 @@ const MainContextProvider = ({ children }) => {
     addInstructor,
     instructors,
     enrollCourse,
-    fetchEnrollesForUser,
-    fetchEnrollmentsWithCourse,
+    fetchCoursesByInstructor,
+    fetchEnrollmentsForUser,
+    fetchEnrollments,
+    fetchActiveCoursesForUser,
+    fetchAllActiveCourses,
+    createComment,
+    removeComment,
+    fetchCommentsWithCourse,
   };
   return (
     <MainContext.Provider value={context}>{children}</MainContext.Provider>

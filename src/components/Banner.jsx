@@ -7,7 +7,7 @@ const Banner = () => {
   }
 
   return (
-    <div className="w-full max-md:h-[600px] h-[400px] mx-auto bg-[#49228C] flex flex-row-reverse flex-wrap justify-around items-center">
+    <div className="w-full max-lg:h-[600px] h-[400px] px-1 mx-auto bg-[#49228C] flex flex-row-reverse flex-wrap justify-around items-center">
       <div>
         <img src={BannerImg} alt="" width='500px' height='500px' />
       </div>

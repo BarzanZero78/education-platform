@@ -20,11 +20,11 @@ const Top_Courses = () => {
           Choose Favourite Courses From Top Categories
         </h1>
       </div>
-      <div className="flex justify-center items-center gap-7">
+      <div className="flex flex-wrap justify-center items-center gap-7">
         {specificCourses.map((specificCourse) => (
           <div className="flex justify-center items-center gap-7" key={specificCourse.id}>
             {specificCourse.isCoursePublished === true ? (
-              <a href={`/course/${specificCourse.courseName}`} className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow">
+              <a href={`/course/${specificCourse.courseName}`} className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow active:scale-95">
                 <div
                   className={`flex flex-col justify-center items-center bg-[#${specificCourse.courseBgColor}] rounded-full w-[90px] h-[90px] p-2`}
                 >

@@ -35,7 +35,7 @@ const Login_Page = () => {
   };
 
   return (
-    <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-7 w-[450px] h-[500px] rounded-md bg-white drop-shadow-xl">
+    <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-7 w-[450px] h-[500px] max-sm:w-[350px] rounded-md bg-white drop-shadow-xl">
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="flex flex-col justify-center items-center">
           <img src={Logo} alt="" width="180px" height="180px" />
@@ -58,7 +58,7 @@ const Login_Page = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-[400px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
           />
 
           <div className="flex flex-col justify-end items-end gap-1">
@@ -68,17 +68,17 @@ const Login_Page = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-[400px] p-2 border border-[#CECECE] rounded"
+              className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
             />
-            <Link to="" className="text-blue-600">
+            <Link to="/forgot_password" className="text-blue-600 active:scale-95">
               Forgot password?
             </Link>
           </div>
 
-          <button onClick={hanldeLogin} className="w-[300px] p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85">
+          <button onClick={hanldeLogin} className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85">
             Login
           </button>
-          <Link to="/register" className="text-blue-600">
+          <Link to="/register" className="text-blue-600 active:scale-95">
             Don't have an account
           </Link>
         </div>
@@ -94,14 +94,14 @@ const Login_Page = () => {
           <div className="flex justify-center items-center gap-4 p-5">
             <button
               onClick={hanldeGoogleSignIn}
-              className="border border-[#CECECE] rounded p-1"
+              className="border border-[#CECECE] rounded p-1 active:scale-95"
             >
               <img src={GoogleImg} alt="" className="w-6 h-6" />
             </button>
 
             <button
               onClick={hanldeFacebookSignIn}
-              className="border border-[#CECECE] rounded p-1"
+              className="border border-[#CECECE] rounded p-1 active:scale-95"
             >
               <img src={FacebookImg} alt="" className="w-6 h-6" />
             </button>

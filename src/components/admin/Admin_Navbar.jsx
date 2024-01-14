@@ -7,9 +7,9 @@ const Admin_Navbar = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-10">
-      <div className="relative top-0 right-0 w-full h-[45px] shadow-lg flex justify-between items-center p-1">
+      <div className="static top-0 right-0 bg-white w-full h-[45px] shadow-lg flex justify-between items-center p-1">
         <div>
-          <p>Courses</p>
+          <p>COURSES</p>
         </div>
 
         <div className="flex justify-center items-center gap-3">

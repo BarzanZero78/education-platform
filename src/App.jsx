@@ -15,9 +15,12 @@ import Admin_Add_Lesson from "./pages/admin/Admin_Add_Lesson";
 import Courses_Page from "./pages/Courses_Page";
 import Course_Page from "./pages/Course_Page";
 import Admin_Add_Instructor from "./pages/admin/Admin_Add_Instructor";
+import Reset_Password_Page from "./pages/auth/Reset_Password_Page";
+import Instructor_Page from "./pages/Instructor_Page";
+import Profile_Page from "./pages/Profile_Page";
+import Admin_Students_Page from "./pages/admin/Admin_Students_Page";
 
 function App() {
-
   return (
     <UserAuthContextProvider>
       <MainContextProvider>
@@ -35,7 +38,16 @@ function App() {
             />
 
             <Route excat path="/courses" element={<Courses_Page />} />
+
             <Route excat path="/course/:courseName" element={<Course_Page />} />
+
+            <Route
+              excat
+              path="/instructor/:instructorName"
+              element={<Instructor_Page />}
+            />
+
+            <Route excat path="/profile" element={<Profile_Page />} />
 
             {/* Auth */}
             <Route
@@ -46,6 +58,12 @@ function App() {
                   <Login_Page />
                 </GuestedRoute>
               }
+            />
+
+            <Route
+              excat
+              path="forgot_password"
+              element={<Reset_Password_Page />}
             />
 
             <Route
@@ -90,6 +108,9 @@ function App() {
               path="/admin_panel/add_intstructor"
               element={<Admin_Add_Instructor />}
             />
+
+            <Route excat path="/admin_panel/students" element={<Admin_Students_Page />} />
+
           </Routes>
         </Router>
       </MainContextProvider>

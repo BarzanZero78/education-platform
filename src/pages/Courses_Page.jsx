@@ -14,7 +14,7 @@ const Courses_Page = () => {
         {courses.map((course) => (
           <div className="flex justify-center items-center gap-7" key={course.id}>
             {course.isCoursePublished === true ? (
-                <a href={`/course/${course.courseName}`} className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow">
+                <a href={`/course/${course.courseName}`} title={`${course.courseName} course`} className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow active:scale-95">
                 <div
                   className={`flex flex-col justify-center items-center bg-[#${course.courseBgColor}] rounded-full w-[90px] h-[90px] p-2`}
                 >
@@ -22,7 +22,7 @@ const Courses_Page = () => {
                   <img
                     src={course.courseLogoURL}
                     alt=""
-                    className="w-[40px] h-[40px]"
+                    className="w-[40px] h-[40px] object-contain"
                   />
                 </div>
   
@@ -35,8 +35,7 @@ const Courses_Page = () => {
           </div>
         ))}
       </div>
-
-
+      <br />
     </div>
   );
 };

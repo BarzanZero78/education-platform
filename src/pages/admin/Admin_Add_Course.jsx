@@ -101,7 +101,7 @@ const Admin_Add_Course = () => {
           coursePrice,
           isCoursePublished,
           userData,
-          selectedInstructor,
+          selectedInstructor
         );
 
         setCourseName("");
@@ -143,12 +143,14 @@ const Admin_Add_Course = () => {
                   value={selectedInstructor ? selectedInstructor.id : ""}
                   onChange={hanldeInstructorChange}
                 >
-                  <option value="" className="w-[350px] p-2 rounded border border-[#969696]">Select a instructor</option>
+                  <option
+                    value=""
+                    className="w-[350px] p-2 rounded border border-[#969696]"
+                  >
+                    Select a instructor
+                  </option>
                   {instructors.map((instructor) => (
-                    <option
-                      key={instructor.id}
-                      value={instructor.id}
-                    >
+                    <option key={instructor.id} value={instructor.id}>
                       {instructor.instructorName}
                     </option>
                   ))}

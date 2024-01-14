@@ -42,7 +42,7 @@ const Register_Page = () => {
   };
 
   return (
-    <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-7 w-[450px] h-[570px] rounded-md bg-white drop-shadow-xl">
+    <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-7 w-[450px] h-[570px] max-sm:w-[350px] rounded-md bg-white drop-shadow-xl">
       <div className="flex flex-col justify-center items-center gap-1">
         <div className="flex flex-col justify-center items-center">
           <img src={Logo} alt="" width="180px" height="180px" />
@@ -65,7 +65,7 @@ const Register_Page = () => {
             required
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            className="w-[400px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
           />
 
           <input
@@ -74,7 +74,7 @@ const Register_Page = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-[400px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded"
           />
 
           <input
@@ -83,16 +83,16 @@ const Register_Page = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-[400px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded"
           />
 
           <button
             onClick={handleRegisterUser}
-            className="w-[300px] p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85"
+            className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85"
           >
             Register
           </button>
-          <Link to="/login" className="text-blue-600">
+          <Link to="/login" className="text-blue-600 active:scale-95">
             Already have an account?
           </Link>
         </div>
@@ -108,14 +108,14 @@ const Register_Page = () => {
           <div className="flex justify-center items-center gap-4 p-5">
             <button
               onClick={hanldeGoogleSignIn}
-              className="border border-[#CECECE] rounded p-1"
+              className="border border-[#CECECE] rounded p-1 active:scale-95"
             >
               <img src={GoogleImg} alt="" className="w-6 h-6" />
             </button>
 
             <button
               onClick={hanldeFacebookSignIn}
-              className="border border-[#CECECE] rounded p-1"
+              className="border border-[#CECECE] rounded p-1 active:scale-95"
             >
               <img src={FacebookImg} alt="" className="w-6 h-6" />
             </button>

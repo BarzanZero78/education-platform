@@ -3,12 +3,14 @@ import { useUserAuth } from "../context/UserAuthContext";
 import Logo from "../assets/img/Logo.png";
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
+import { isAndroid, isIOS, isWindows, isMacOs } from "react-device-detect";
 
 const Navbar = () => {
-  const { getUserData, signOutUser } = useUserAuth();
+  const { getUserData } = useUserAuth();
   const [userData, setUserData] = useState(null);
   const location = useLocation();
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,21 +32,16 @@ const Navbar = () => {
     return null;
   }
 
-  const hanldeSignOutUser = async () => {
-    try {
-       await signOutUser();
-    } catch(error) {
-      console.log(error.message);
-    }
-  }
-
   return (
     <>
       {userData ? (
         <header
-          className={`bg-[#49228C] w-full h-[60px] flex justify-around items-center ${
-            location.pathname === "/courses" ? "bg-white shadow-md" : ""
-          } font-semibold`}
+          className={`bg-[#49228C] w-full h-[60px] flex justify-between items-center px-2 ${
+            location.pathname === "/courses" ||
+            location.pathname.includes("instructor") || location.pathname === '/profile'
+              ? "bg-white shadow-md"
+              : ""
+          } font-semibold ${isIOS ? "backdrop-blur-lg" : ""}`}
         >
           <div>
             <Link to="/">
@@ -52,16 +49,109 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex justify-center items-center gap-28">
-            <nav>
+          <nav className="hidden lg:flex">
+            <ul
+              className={`flex justify-center items-center gap-10 text-white ${
+                location.pathname === "/courses" ||
+                location.pathname.includes("instructor") || location.pathname === '/profile'
+                  ? "text-black"
+                  : ""
+              }`}
+            >
+              <li
+                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  location.pathname === "/courses" ||
+                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                    ? "text-black"
+                    : ""
+                }`}
+              >
+                <a href="/" title="Home">
+                  Home
+                </a>
+              </li>
+
+              <li
+                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  location.pathname === "/courses" ||
+                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                    ? "text-black"
+                    : ""
+                }`}
+              >
+                <Link to="/courses" title="Our Courses">
+                  Our Courses
+                </Link>
+              </li>
+
+              <li
+                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  location.pathname === "/courses" ||
+                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                    ? "text-black"
+                    : ""
+                }`}
+              >
+                <a href="/#testimonal" title="Testimonal">
+                  Testimonal
+                </a>
+              </li>
+
+              <li
+                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  location.pathname === "/courses" ||
+                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                    ? "text-black"
+                    : ""
+                }`}
+              >
+                <a href="" title="Contact Us">
+                  Contact
+                </a>
+              </li>
+
+              {userData.isAdmin === true ? (
+                <li
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                    location.pathname === "/courses" ||
+                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                      ? "text-black"
+                      : ""
+                  }`}
+                >
+                  <a href="/admin_panel" title="Admin Panel">
+                    Admin Panel
+                  </a>
+                </li>
+              ) : (
+                <></>
+              )}
+            </ul>
+          </nav>
+
+          {openNav && (
+            <nav
+              className={`absolute top-16 left-0 w-full h-auto bg-[#432577] ${
+                location.pathname === "/courses" ||
+                location.pathname.includes(
+                  "/instructor" || location.pathname === '/profile' ? "bg-white shadow-xl" : ""
+                )
+              }`}
+            >
               <ul
-                className={`flex justify-center items-center gap-10 text-white ${
-                  location.pathname === "/courses" ? "text-black" : ""
+                className={`flex flex-col justify-start p-2 items-start gap-5 text-white ${
+                  location.pathname === "/courses" ||
+                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                    ? "text-black bg-white"
+                    : ""
                 }`}
               >
                 <li
                   className={`hover:text-[#F67E59] transform hover:transition-shadow ${
-                    location.pathname === "/courses" ? "text-black" : ""
+                    location.pathname === "/courses" ||
+                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                      ? "text-black"
+                      : ""
                   }`}
                 >
                   <a href="/" title="Home">
@@ -71,17 +161,23 @@ const Navbar = () => {
 
                 <li
                   className={`hover:text-[#F67E59] transform hover:transition-shadow ${
-                    location.pathname === "/courses" ? "text-black" : ""
+                    location.pathname === "/courses" ||
+                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                      ? "text-black"
+                      : ""
                   }`}
                 >
-                  <Link to="/courses" title="Our Courses">
+                  <a href="/courses" title="Our Courses">
                     Our Courses
-                  </Link>
+                  </a>
                 </li>
 
                 <li
                   className={`hover:text-[#F67E59] transform hover:transition-shadow ${
-                    location.pathname === "/courses" ? "text-black" : ""
+                    location.pathname === "/courses" ||
+                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                      ? "text-black"
+                      : ""
                   }`}
                 >
                   <a href="/#testimonal" title="Testimonal">
@@ -91,7 +187,10 @@ const Navbar = () => {
 
                 <li
                   className={`hover:text-[#F67E59] transform hover:transition-shadow ${
-                    location.pathname === "/courses" ? "text-black" : ""
+                    location.pathname === "/courses" ||
+                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                      ? "text-black"
+                      : ""
                   }`}
                 >
                   <a href="" title="Contact Us">
@@ -101,45 +200,74 @@ const Navbar = () => {
 
                 {userData.isAdmin === true ? (
                   <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
-                    location.pathname === "/courses" ? "text-black" : ""
-                  }`}
-                >
-                  <a href="/admin_panel" title="Admin Panel">
-                    Admin Panel
-                  </a>
-                </li>
-                ) : <></>}
+                    className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                      location.pathname === "/courses" ||
+                      location.pathname.includes("instructor") || location.pathname === '/profile'
+                        ? "text-black"
+                        : ""
+                    }`}
+                  >
+                    <a href="/admin_panel" title="Admin Panel">
+                      Admin Panel
+                    </a>
+                  </li>
+                ) : (
+                  <></>
+                )}
               </ul>
             </nav>
+          )}
 
-            <div className="flex justify-center items-center gap-5">
-              <div>
-                <button
-                  onClick={() => setShowSearchBar(!showSearchBar)}
-                  className="bg-[#8773AA] text-white flex justify-center items-center p-1 rounded-full"
-                  title="Search"
-                >
-                  <span className="material-icons">search</span>
-                </button>
-              </div>
+          <div className="flex justify-center items-center gap-5">
+            <div>
+              <button
+                onClick={() => setShowSearchBar(!showSearchBar)}
+                className="bg-[#8773AA] text-white flex justify-center items-center p-1 rounded-full"
+                title="Search"
+              >
+                <span className="material-icons">search</span>
+              </button>
+            </div>
 
-              {showSearchBar && (
-                <Search
-                  showSearchBar={showSearchBar}
-                  setShowSearchBar={setShowSearchBar}
-                />
-              )}
+            {showSearchBar && (
+              <Search
+                showSearchBar={showSearchBar}
+                setShowSearchBar={setShowSearchBar}
+              />
+            )}
 
-              <div>
-                <a href="">
-                  <img
-                    src={userData.userImage}
-                    alt=""
-                    className="w-[40px] h-[40px] rounded-full"
-                  />
-                </a>
-              </div>
+            <div className="flex flex-row-reverse justify-center items-center gap-2">
+              <button
+                className="cursor-pointer lg:hidden"
+                onClick={() => setOpenNav(!openNav)}
+              >
+                {openNav ? (
+                  <span className="material-icons text-white text-xl">
+                    close
+                  </span>
+                ) : (
+                  <span className="material-icons text-white text-xl">
+                    menu
+                  </span>
+                )}
+              </button>
+              <a href="/profile">
+                {userData.userImage ? (
+                  <>
+                    <img
+                      src={userData.userImage}
+                      alt=""
+                      className="w-[40px] h-[40px] rounded-full"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <p className="bg-[#8773AA] text-white flex justify-center items-center w-[40px] h-[40px] rounded-full">
+                      {userData.userName.charAt(0).toUpperCase()}
+                    </p>
+                  </>
+                )}
+              </a>
             </div>
           </div>
         </header>

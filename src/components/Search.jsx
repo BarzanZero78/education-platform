@@ -16,8 +16,8 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
   );
 
   return (
-    <div className="absolute top-[10%] right-[0.5%] bg-white shadow-md w-[400px] h-[150px] rounded-md overflow-y-auto">
-      <div className="sticky top-0 left-0 flex justify-center items-center gap-1 p-2 bg-white">
+    <div className="absolute top-[10%] right-[0.5%] bg-white shadow-md w-[400px] p-1 h-[150px] rounded-md overflow-y-auto">
+      <div className="sticky top-0 left-0 flex justify-center items-center gap-1 p-1 bg-white">
         <input
           type="text"
           placeholder="Search For Courses..."
@@ -43,7 +43,7 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
             <img
               src={searchCourse.courseLogoURL}
               alt=""
-              className="w-[30px] h-[30px] object-cover"
+              className="w-[30px] h-[30px] object-contain"
             />
           </div>
 
