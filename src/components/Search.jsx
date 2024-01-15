@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMainContext } from "../context/MainContext";
+import { isIOS, isMacOs, isSafari } from "react-device-detect";
 
 const Search = ({ showSearchBar, setShowSearchBar }) => {
   const [search, setSearch] = useState("");
@@ -16,7 +17,11 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
   );
 
   return (
-    <div className="fixed top-[10%] right-[0.5%] bg-white shadow-md max-w-[400px] p-1 h-[150px] rounded-md overflow-y-auto">
+    <div
+      className={`fixed top-[10%] right-[0.5%] bg-white shadow-md max-w-[400px] p-1 h-[150px] rounded-md overflow-y-auto ${
+        isIOS || isMacOs || isSafari ? "backdrop-blur-xl" : ""
+      }`}
+    >
       <div className="sticky top-0 left-0 flex justify-center items-center gap-1 p-1 bg-white">
         <input
           type="text"

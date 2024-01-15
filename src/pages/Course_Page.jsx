@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useMainContext } from "../context/MainContext";
 import { useUserAuth } from "../context/UserAuthContext";
-import { isAndroid, isIOS, isWindows, isMacOs } from "react-device-detect";
+import {
+  isAndroid,
+  isIOS,
+  isWindows,
+  isMacOs,
+  isSafari,
+} from "react-device-detect";
 import { serverTimestamp } from "firebase/firestore";
 
 const Course_Page = () => {
@@ -10,6 +16,7 @@ const Course_Page = () => {
   const {
     courses,
     fetchCoursesWithLessons,
+    getCourseLessonsFromLocalStorage,
     enrollCourse,
     fetchEnrollmentsForUser,
     fetchCommentsWithCourse,
@@ -26,17 +33,21 @@ const Course_Page = () => {
   const [comment, setComment] = useState("");
 
   useEffect(() => {
-    if (courses.length > 0) {
-      const foundCourse = courses.find(
-        (course) => course.courseName === courseName
+    const storedCourses = getCourseLessonsFromLocalStorage();
+
+    if (storedCourses.length > 0) {
+      const foundCourse = storedCourses.find(
+        (storedCourse) => storedCourse.courseName === courseName
       );
       setCourseDetails(foundCourse);
+    } else {
+      fetchCoursesWithLessons();
     }
-  }, [courses, courseName]);
+  }, [courseName, fetchCoursesWithLessons, getCourseLessonsFromLocalStorage]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     fetchCoursesWithLessons();
-  }, [fetchCoursesWithLessons]);
+  }, [fetchCoursesWithLessons]); */
 
   useEffect(() => {
     if (courseDetails && userData) {
@@ -156,13 +167,13 @@ const Course_Page = () => {
                 <div className="flex flex-col justify-center items-center gap-5">
                   <header
                     className={`fixed top-0 left-0 w-full h-[60px] bg-white shadow-md flex justify-between items-center ${
-                      isIOS ? "backdrop-blur-lg" : ""
+                      isIOS || isMacOs || isSafari ? "backdrop-blur-xl" : ""
                     }`}
                   >
                     <button
                       onClick={() => history.back()}
                       className={`hover:bg-[#dfdada] rounded-full active:scale-95 cursor-pointer px-2 py-2 ${
-                        isIOS || isMacOs
+                        isIOS || isMacOs || isSafari
                           ? "active:text-[#dfdada]"
                           : ""
                       }`}

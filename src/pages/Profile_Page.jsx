@@ -63,7 +63,7 @@ const Profile_Page = () => {
         <div className="pt-[50px]">
           <div className="w-[95%] h-[200px] flex flex-col justify-center items-center gap-3 bg-white drop-shadow-lg rounded-lg mx-auto">
             <div className="mr-0 ml-auto px-2">
-              <button onClick={handleSignOutUser}>
+              <button onClick={handleSignOutUser} title="Logout">
                 <span className="material-icons active:scale-95 text-2xl bg-[#dfdada] flex justify-center items-center w-[40px] h-[40px] rounded-full">
                   logout
                 </span>

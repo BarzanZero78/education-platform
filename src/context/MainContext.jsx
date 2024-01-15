@@ -152,7 +152,18 @@ const MainContextProvider = ({ children }) => {
         fetchedCourses.push(course);
       }
 
+      localStorage.setItem("fetchedCourses", JSON.stringify(fetchedCourses));
+
       setCourses(fetchedCourses);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getCourseLessonsFromLocalStorage = () => {
+    try {
+      const storedLessons = localStorage.getItem("fetchedCourses");
+      return storedLessons ? JSON.parse(storedLessons) : [];
     } catch (error) {
       console.log(error.message);
     }
@@ -360,6 +371,7 @@ const MainContextProvider = ({ children }) => {
     addCourse,
     addLessonForCourse,
     fetchCoursesWithLessons,
+    getCourseLessonsFromLocalStorage,
     addInstructor,
     instructors,
     enrollCourse,
