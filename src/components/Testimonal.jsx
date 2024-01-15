@@ -33,52 +33,53 @@ const Testimonal = () => {
           What Our Students say <br /> about us
         </h1>
       </div>
-      <div className="container max-w-[600px] mx-auto flex flex-row justify-center items-center gap-7">
-        <div className="flex justify-center items-center gap-5">
-        {testimonals.map((testimonal, index) => (
+      <div className="container max-w-[900px] mx-auto flex flex-row justify-center items-center gap-7">
+        <div className="flex flex-wrap justify-center items-center gap-5">
+          {testimonals.map(
+            (testimonal, index) =>
               index < 3 && (
-          <div className="flex flex-col justify-center items-center gap-3 rounded w-[280px] h-[325px] border border-gray-300 drop-shadow-md">
-                <div className="" key={index}>
-                <div>
-                  {testimonal.userData.userImage ? (
-                    <img
-                      src={testimonal.userData.userImage}
-                      alt=""
-                      className="w-[80px] h-[80px] object-cover rounded-full"
-                    />
-                  ) : (
-                    <>
-                      <p className="text-2xl bg-[#dfdada] flex justify-center items-center w-[80px] h-[80px] rounded-full">
-                        {testimonal.userData.userName.charAt(0)}
-                      </p>
-                    </>
-                  )}
-                </div>
+                <div
+                  key={index}
+                >
+                  <div className="flex flex-col justify-center items-center gap-3 rounded w-[280px] h-[325px] border border-gray-300 drop-shadow-md hover:drop-shadow-2xl hover:shadow-lg cursor-text">
+                    <div>
+                      {testimonal.userData.userImage ? (
+                        <img
+                          src={testimonal.userData.userImage}
+                          alt=""
+                          className="w-[80px] h-[80px] object-cover rounded-full"
+                        />
+                      ) : (
+                        <>
+                          <p className="text-2xl bg-[#dfdada] flex justify-center items-center w-[80px] h-[80px] rounded-full">
+                            {testimonal.userData.userName.charAt(0)}
+                          </p>
+                        </>
+                      )}
+                    </div>
 
-                <div className="flex flex-col justify-center items-center gap-2">
-                  <div className="flex flex-col justify-center items-center">
-                    <h1 className="text-xl">{testimonal.userData.userName}</h1>
-                    <button
-                      onClick={() =>
-                        window.location.href ===
-                        `/course/${testimonal.courseDetails.courseName}`
-                      }
-                      className="text-blue-600"
-                    >
-                      {testimonal.courseDetails.courseName}
-                    </button>
-                  </div>
+                    <div className="flex flex-col justify-center items-center gap-2">
+                      <div className="flex flex-col justify-center items-center">
+                        <h1 className="text-xl">
+                          {testimonal.userData.userName}
+                        </h1>
+                        <a href={`/course/${testimonal.courseDetails.courseName}`}
+                          className="text-blue-600"
+                        >
+                          {testimonal.courseDetails.courseName}
+                        </a>
+                      </div>
 
-                  <div className="">
-                    <p className="text-sm text-center text-gray-500">
-                      {testimonal.comment}
-                    </p>
+                      <div className="">
+                        <p className="text-sm text-center px-2 text-gray-500">
+                          {testimonal.comment}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-          </div>
               )
-            ))}
+          )}
         </div>
       </div>
     </div>

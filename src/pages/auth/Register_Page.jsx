@@ -65,7 +65,7 @@ const Register_Page = () => {
             required
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded focus:outline-none"
           />
 
           <input
@@ -74,7 +74,7 @@ const Register_Page = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded"
+            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded focus:outline-none"
           />
 
           <input
@@ -83,12 +83,12 @@ const Register_Page = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded"
+            className="w-[400px] p-2 max-sm:w-[300px] border border-[#CECECE] rounded focus:outline-none"
           />
 
           <button
             onClick={handleRegisterUser}
-            className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85"
+            className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85 focus:outline-none"
           >
             Register
           </button>

@@ -58,7 +58,7 @@ const Login_Page = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
+            className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded focus:outline-none"
           />
 
           <div className="flex flex-col justify-end items-end gap-1">
@@ -68,14 +68,14 @@ const Login_Page = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
+              className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded focus:outline-none"
             />
             <Link to="/forgot_password" className="text-blue-600 active:scale-95">
               Forgot password?
             </Link>
           </div>
 
-          <button onClick={hanldeLogin} className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85">
+          <button onClick={hanldeLogin} className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85 focus:outline-none">
             Login
           </button>
           <Link to="/register" className="text-blue-600 active:scale-95">

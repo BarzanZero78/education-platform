@@ -109,10 +109,7 @@ const Instructor_Page = () => {
                 </div>
               </div>
 
-              <br /> <br /> <br /> <br /> <br /> <br />
-              <br /> <br /> <br /> <br /> <br /> <br />
-              <br /> <br /> <br /> <br /> <br /> <br />
-              <br /> <br /> <br /> <br /> <br /> <br />
+              <br />
             </div>
           ) : (
             <></>

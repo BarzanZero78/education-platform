@@ -36,10 +36,10 @@ const Reset_Password_Page = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
-          className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded"
+          className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded focus:outline-none"
         />
 
-        <button className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85">
+        <button className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85 focus:outline-none">
           Reset Password
         </button>
       </form>

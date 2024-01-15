@@ -16,7 +16,7 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
   );
 
   return (
-    <div className="absolute top-[10%] right-[0.5%] bg-white shadow-md w-[400px] p-1 h-[150px] rounded-md overflow-y-auto">
+    <div className="fixed top-[10%] right-[0.5%] bg-white shadow-md max-w-[400px] p-1 h-[150px] rounded-md overflow-y-auto">
       <div className="sticky top-0 left-0 flex justify-center items-center gap-1 p-1 bg-white">
         <input
           type="text"

@@ -263,11 +263,23 @@ const MainContextProvider = ({ children }) => {
         allEnrollments.push(...enrollments);
       }
 
+      localStorage.setItem("userEnrollments", JSON.stringify(allEnrollments));
+
       return allEnrollments;
     } catch (error) {
       const errorMessage = error.message;
       const errorCode = error.code;
       console.log(errorMessage);
+      return [];
+    }
+  };
+
+  const getUserEnrollmentsFromLocalStorage = () => {
+    try {
+      const storedEnrollments = localStorage.getItem("userEnrollments");
+      return storedEnrollments ? JSON.parse(storedEnrollments) : [];
+    } catch (error) {
+      console.error("Error parsing stored enrollments:", error);
       return [];
     }
   };
@@ -332,6 +344,15 @@ const MainContextProvider = ({ children }) => {
     }
   };
 
+  const contactForm = async (contactData) => {
+    try {
+      const contactRef = collection(db, "contacts");
+      await addDoc(contactRef, contactData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const context = {
     trustedComapnies,
     courses,
@@ -346,10 +367,12 @@ const MainContextProvider = ({ children }) => {
     fetchEnrollmentsForUser,
     fetchEnrollments,
     fetchActiveCoursesForUser,
+    getUserEnrollmentsFromLocalStorage,
     fetchAllActiveCourses,
     createComment,
     removeComment,
     fetchCommentsWithCourse,
+    contactForm,
   };
   return (
     <MainContext.Provider value={context}>{children}</MainContext.Provider>

@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase/FirebaseConfig";
-import { addDoc, collection, doc, endAt, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  endAt,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
@@ -88,33 +96,35 @@ const UserAuthContextProvider = ({ children }) => {
       const errorCode = error.code;
       console.log(errorMessage);
     }
-  }
+  };
+
+  const createUserProfileIfNotExists = async (user) => {
+    const userDoc = doc(db, "users", user.uid);
+    const userOnSnapshot = await getDoc(userDoc);
+
+    if (!userOnSnapshot.exists()) {
+      const isAdmin = false;
+      const isIntructor = false;
+      await setDoc(userDoc, {
+        email: user.email,
+        userName: user.displayName,
+        userImage: user.photoURL,
+        userPhoneNumber: user.phoneNumber,
+        isAdmin,
+        isIntructor,
+        userId: user.uid,
+      });
+    }
+  };
 
   const googleSignIn = async () => {
     try {
       const googleProvider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userDoc = doc(db, "users", user.uid);
-      const userOnSnapshot = await getDoc(userDoc);
-
-      if (!userOnSnapshot.exists()) {
-        const isAdmin = false;
-        const isIntructor = false;
-        await setDoc(userDoc, {
-          email: user.email,
-          userName: user.displayName,
-          userImage: user.photoURL,
-          userPhoneNumber: user.phoneNumber,
-          isAdmin,
-          isIntructor,
-          userId: user.uid,
-        });
-      }
+      await createUserProfileIfNotExists(user);
     } catch (error) {
-      const errorMessage = error.message;
-      const errorCode = error.code;
-      console.log(errorMessage);
+      console.log(error.message);
     }
   };
 
@@ -123,22 +133,7 @@ const UserAuthContextProvider = ({ children }) => {
       const fbProvider = new FacebookAuthProvider();
       const result = await signInWithPopup(auth, fbProvider);
       const user = result.user;
-      const userDoc = doc(db, "users", user.uid);
-      const userOnSnapshot = await getDoc(userDoc);
-
-      if (!userOnSnapshot.exists()) {
-        const isAdmin = false;
-        const isIntructor = false;
-        await setDoc(userDoc, {
-          email: user.email,
-          userName: user.displayName,
-          userImage: user.photoURL,
-          userPhoneNumber: user.phoneNumber,
-          isAdmin,
-          isIntructor,
-          userId: user.uid,
-        });
-      }
+      await createUserProfileIfNotExists(user);
     } catch (error) {
       const errorMessage = error.message;
       const errorCode = error.code;
@@ -151,15 +146,29 @@ const UserAuthContextProvider = ({ children }) => {
   };
 
   const getUserData = async () => {
+    const localUserData = JSON.parse(localStorage.getItem("userData"));
+
+    if(localUserData && !isDataStale(localUserData)) {
+      return localUserData;
+    }
+
     if (user) {
       const userRef = doc(db, "users", user.uid);
       const userDocSnapshot = await getDoc(userRef);
 
       if (userDocSnapshot.exists()) {
-        return userDocSnapshot.data();
+        const userData = userDocSnapshot.data();
+
+        localStorage.setItem("userData", JSON.stringify(userData));
+
+        return userData;
       }
     }
   };
+
+  const isDataStale = (userData) => {
+    return false;
+  }
 
   const context = {
     user,

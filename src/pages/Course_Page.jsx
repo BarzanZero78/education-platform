@@ -162,7 +162,9 @@ const Course_Page = () => {
                     <button
                       onClick={() => history.back()}
                       className={`hover:bg-[#dfdada] rounded-full active:scale-95 cursor-pointer px-2 py-2 ${
-                        isIOS ? "active:text-[#dfdada]" : ""
+                        isIOS || isMacOs
+                          ? "active:text-[#dfdada]"
+                          : ""
                       }`}
                     >
                       <span className="material-icons">arrow_back</span>
@@ -174,7 +176,7 @@ const Course_Page = () => {
                       </h1>
                       <img
                         src={courseDetails.courseLogoURL}
-                        className="w-[35px] h-[35px] object-contain"
+                        className="w-[35px] h-[35px] object-contain drop-shadow-2xl"
                         alt=""
                       />
                     </div>
@@ -221,7 +223,7 @@ const Course_Page = () => {
                       <div>
                         <img
                           src={courseDetails.courseLogoURL}
-                          className="w-[150px] h-[150px] object-contain drop-shadow-lg"
+                          className="w-[150px] h-[150px] object-contain drop-shadow-2xl"
                           alt=""
                         />
                       </div>
@@ -238,7 +240,7 @@ const Course_Page = () => {
 
                     <Link
                       to={`/instructor/${courseDetails.selectedInstructor.instructorName}`}
-                      className="flex flex-row-reverse justify-start items-start pt-8 gap-3"
+                      className="flex flex-row-reverse mr-0 ml-auto pt-8 px-9 gap-1"
                     >
                       <div>
                         <img
@@ -249,7 +251,7 @@ const Course_Page = () => {
                         />
                       </div>
 
-                      <div className="flex flex-col justify-end items-end">
+                      <div className="flex flex-col mr-0 ml-auto px-9">
                         <p
                           className="text-base font-semibold"
                           title="Instructor"
@@ -385,8 +387,8 @@ const Course_Page = () => {
                                                               <div className="flex flex-col justify-center items-center gap-5 w-[500px] mx-auto h-[250px] overflow-y-auto p-3">
                                                                 {comments.map(
                                                                   (comment) => (
-                                                                    <div className="flex flex-col-reverse flex-wrap justify-center items-center gap-2 w-full border-b-gray-400">
-                                                                      <p className="text-base">
+                                                                    <div className="flex flex-col-reverse justify-start items-start gap-2 p-1 w-full border-b border-b-gray-300">
+                                                                      <p className="text-base px-8">
                                                                         {
                                                                           comment.comment
                                                                         }

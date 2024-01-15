@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Profile_Page = () => {
   const { getUserData, signOutUser } = useUserAuth();
   const [userData, setUserData] = useState(null);
-  const { fetchActiveCoursesForUser } = useMainContext();
+  const { fetchActiveCoursesForUser, getUserEnrollmentsFromLocalStorage } =
+    useMainContext();
   const [userEnrollment, setUserEnrollment] = useState([]);
   const navigate = useNavigate();
 
@@ -19,20 +20,33 @@ const Profile_Page = () => {
     fetchUserData();
   }, [getUserData]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userData) {
+        const storedEnrollments = getUserEnrollmentsFromLocalStorage();
+
+        if (storedEnrollments.length > 0) {
+          setUserEnrollment(storedEnrollments);
+        } else {
+          await fetchEnrollmentsByUser(userData.userId);
+        }
+      }
+    };
+
+    fetchData();
+  }, [userData]);
+
   const handleSignOutUser = async () => {
     try {
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userEnrollments");
+
       await signOutUser();
       navigate("/login");
     } catch (error) {
       console.log(error.message);
     }
   };
-
-  useEffect(() => {
-    if (userData) {
-      fetchEnrollmentsByUser(userData.userId);
-    }
-  }, [userData]);
 
   const fetchEnrollmentsByUser = async (userId) => {
     const userEnrollments = await fetchActiveCoursesForUser(userId);
@@ -58,7 +72,11 @@ const Profile_Page = () => {
 
             <div>
               {userData.userImage ? (
-                <img src={userData.userImage} className="w-[50px] h-[50px] object-cover rounded-full" alt="" />
+                <img
+                  src={userData.userImage}
+                  className="w-[50px] h-[50px] object-cover rounded-full"
+                  alt=""
+                />
               ) : (
                 <p className="text-2xl bg-[#dfdada] flex justify-center items-center w-[50px] h-[50px] rounded-full">
                   {userData.userName.charAt(0)}
@@ -67,14 +85,21 @@ const Profile_Page = () => {
             </div>
 
             <div className="flex flex-col justify-center items-center gap-1">
-              <h3 className="text-lg font-semibold">{userData.userName}</h3>
+              <div className="flex justify-center items-center gap-1">
+                <h3 className="text-lg font-semibold">{userData.userName}</h3>
+                {userData.isAdmin === true ? (
+                  <span className="material-icons text-blue-600">verified</span>
+                ) : <></>}
+              </div>
               <p className="text-base text-gray-500">{userData.email}</p>
             </div>
           </div>
 
           <div className="flex flex-col justify-start items-start gap-3 py-6 px-10">
             <div className="">
-              <h1 className="text-xl font-bold">My courses</h1>
+              <h1 className="text-xl font-bold">
+                My courses ({userEnrollment.length})
+              </h1>
             </div>
 
             {userEnrollment ? (

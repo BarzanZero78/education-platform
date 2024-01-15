@@ -23,7 +23,7 @@ const Navbar = () => {
 
   if (
     location.pathname.includes("/admin_panel") ||
-    location.pathname.includes("/course/:courseName") ||
+    location.pathname.includes("/course/") ||
     location.pathname.includes("/admin_panel/admin_add_trusted_company") ||
     location.pathname.includes("/admin_panel/admin_add_course") ||
     location.pathname.includes("/admin_panel/course/") ||
@@ -38,14 +38,16 @@ const Navbar = () => {
         <header
           className={`bg-[#49228C] w-full h-[60px] flex justify-between items-center px-2 ${
             location.pathname === "/courses" ||
-            location.pathname.includes("instructor") || location.pathname === '/profile'
+            location.pathname.includes("instructor") ||
+            location.pathname === "/profile" ||
+            location.pathname === "/contact_us"
               ? "bg-white shadow-md"
               : ""
           } font-semibold ${isIOS ? "backdrop-blur-lg" : ""}`}
         >
-          <div>
+          <div className="">
             <Link to="/">
-              <img src={Logo} alt="" width="150px" height="150px" />
+              <img src={Logo} alt="" width="150px" height="150px" className="active:scale-95" />
             </Link>
           </div>
 
@@ -53,15 +55,19 @@ const Navbar = () => {
             <ul
               className={`flex justify-center items-center gap-10 text-white ${
                 location.pathname === "/courses" ||
-                location.pathname.includes("instructor") || location.pathname === '/profile'
+                location.pathname.includes("instructor") ||
+                location.pathname === "/profile" ||
+                location.pathname === "/contact_us"
                   ? "text-black"
                   : ""
               }`}
             >
               <li
-                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                   location.pathname === "/courses" ||
-                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                  location.pathname.includes("instructor") ||
+                  location.pathname === "/profile" ||
+                  location.pathname === "/contact_us"
                     ? "text-black"
                     : ""
                 }`}
@@ -72,9 +78,11 @@ const Navbar = () => {
               </li>
 
               <li
-                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                   location.pathname === "/courses" ||
-                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                  location.pathname.includes("instructor") ||
+                  location.pathname === "/profile" ||
+                  location.pathname === "/contact_us"
                     ? "text-black"
                     : ""
                 }`}
@@ -85,9 +93,11 @@ const Navbar = () => {
               </li>
 
               <li
-                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                   location.pathname === "/courses" ||
-                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                  location.pathname.includes("instructor") ||
+                  location.pathname === "/profile" ||
+                  location.pathname === "/contact_us"
                     ? "text-black"
                     : ""
                 }`}
@@ -98,23 +108,27 @@ const Navbar = () => {
               </li>
 
               <li
-                className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                   location.pathname === "/courses" ||
-                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                  location.pathname.includes("instructor") ||
+                  location.pathname === "/profile" ||
+                  location.pathname === "/contact_us"
                     ? "text-black"
                     : ""
                 }`}
               >
-                <a href="" title="Contact Us">
+                <a href="/contact_us" title="Contact Us">
                   Contact
                 </a>
               </li>
 
               {userData.isAdmin === true ? (
                 <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                     location.pathname === "/courses" ||
-                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                    location.pathname.includes("instructor") ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
                       ? "text-black"
                       : ""
                   }`}
@@ -134,22 +148,30 @@ const Navbar = () => {
               className={`absolute top-16 left-0 w-full h-auto bg-[#432577] ${
                 location.pathname === "/courses" ||
                 location.pathname.includes(
-                  "/instructor" || location.pathname === '/profile' ? "bg-white shadow-xl" : ""
+                  "/instructor" ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
+                    ? "bg-white shadow-xl"
+                    : ""
                 )
               }`}
             >
               <ul
                 className={`flex flex-col justify-start p-2 items-start gap-5 text-white ${
                   location.pathname === "/courses" ||
-                  location.pathname.includes("instructor") || location.pathname === '/profile'
+                  location.pathname.includes("instructor") ||
+                  location.pathname === "/profile" ||
+                  location.pathname === "/contact_us"
                     ? "text-black bg-white"
                     : ""
                 }`}
               >
                 <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                     location.pathname === "/courses" ||
-                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                    location.pathname.includes("instructor") ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
                       ? "text-black"
                       : ""
                   }`}
@@ -160,9 +182,11 @@ const Navbar = () => {
                 </li>
 
                 <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                     location.pathname === "/courses" ||
-                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                    location.pathname.includes("instructor") ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
                       ? "text-black"
                       : ""
                   }`}
@@ -173,9 +197,11 @@ const Navbar = () => {
                 </li>
 
                 <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                     location.pathname === "/courses" ||
-                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                    location.pathname.includes("instructor") ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
                       ? "text-black"
                       : ""
                   }`}
@@ -186,23 +212,27 @@ const Navbar = () => {
                 </li>
 
                 <li
-                  className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                  className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                     location.pathname === "/courses" ||
-                    location.pathname.includes("instructor") || location.pathname === '/profile'
+                    location.pathname.includes("instructor") ||
+                    location.pathname === "/profile" ||
+                    location.pathname === "/contact_us"
                       ? "text-black"
                       : ""
                   }`}
                 >
-                  <a href="" title="Contact Us">
+                  <a href="/contact_us" title="Contact Us">
                     Contact
                   </a>
                 </li>
 
                 {userData.isAdmin === true ? (
                   <li
-                    className={`hover:text-[#F67E59] transform hover:transition-shadow ${
+                    className={`hover:text-[#F67E59] transform hover:transition-shadow active:scale-95 ${
                       location.pathname === "/courses" ||
-                      location.pathname.includes("instructor") || location.pathname === '/profile'
+                      location.pathname.includes("instructor") ||
+                      location.pathname === "/profile" ||
+                      location.pathname === "/contact_us"
                         ? "text-black"
                         : ""
                     }`}
@@ -222,7 +252,7 @@ const Navbar = () => {
             <div>
               <button
                 onClick={() => setShowSearchBar(!showSearchBar)}
-                className="bg-[#8773AA] text-white flex justify-center items-center p-1 rounded-full"
+                className="bg-[#8773AA] text-white flex justify-center items-center p-1 rounded-full active:scale-95"
                 title="Search"
               >
                 <span className="material-icons">search</span>
@@ -242,16 +272,34 @@ const Navbar = () => {
                 onClick={() => setOpenNav(!openNav)}
               >
                 {openNav ? (
-                  <span className="material-icons text-white text-xl">
+                  <span
+                    className={`material-icons text-white text-xl ${
+                      location.pathname === "/courses" ||
+                      location.pathname.includes("instructor") ||
+                      location.pathname === "/profile" ||
+                      location.pathname === "/contact_us"
+                        ? "text-black"
+                        : ""
+                    }`}
+                  >
                     close
                   </span>
                 ) : (
-                  <span className="material-icons text-white text-xl">
+                  <span
+                    className={`material-icons text-white text-xl ${
+                      location.pathname === "/courses" ||
+                      location.pathname.includes("instructor") ||
+                      location.pathname === "/profile" ||
+                      location.pathname === "/contact_us"
+                        ? "text-black"
+                        : ""
+                    }`}
+                  >
                     menu
                   </span>
                 )}
               </button>
-              <a href="/profile">
+              <a href="/profile" className="active:scale-95">
                 {userData.userImage ? (
                   <>
                     <img

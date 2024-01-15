@@ -19,6 +19,7 @@ import Reset_Password_Page from "./pages/auth/Reset_Password_Page";
 import Instructor_Page from "./pages/Instructor_Page";
 import Profile_Page from "./pages/Profile_Page";
 import Admin_Students_Page from "./pages/admin/Admin_Students_Page";
+import Contact_Page from "./pages/Contact_Page";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             />
 
             <Route excat path="/profile" element={<Profile_Page />} />
+            <Route excat path="/contact_us" element={<Contact_Page />} />
 
             {/* Auth */}
             <Route
@@ -109,8 +111,11 @@ function App() {
               element={<Admin_Add_Instructor />}
             />
 
-            <Route excat path="/admin_panel/students" element={<Admin_Students_Page />} />
-
+            <Route
+              excat
+              path="/admin_panel/students"
+              element={<Admin_Students_Page />}
+            />
           </Routes>
         </Router>
       </MainContextProvider>
