@@ -8,7 +8,14 @@ const Popular_Courses = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    fetchCoursesWithLessons();
+    const storedCourses = localStorage.getItem("courses");
+
+    if (storedCourses) {
+      const parsedCourses = JSON.parse(storedCourses);
+      fetchCoursesWithLessons(parsedCourses); // Use the courses from local storage
+    } else {
+      fetchCoursesWithLessons(); // Fetch from Firestore if not available in local storage
+    }
   }, [fetchCoursesWithLessons]);
 
   useEffect(() => {

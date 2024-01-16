@@ -21,34 +21,90 @@ export const useMainContext = () => {
 };
 
 const MainContextProvider = ({ children }) => {
-  const [trustedComapnies, setTrusetdCompanies] = useState([]);
+  const [trustedComapnies, setTrustedCompanies] = useState([]);
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
 
+  const fetchTrustedCompaniesFromFirestore = async () => {
+    try {
+      const snapshotTrustedCompanies = await onSnapshot(
+        query(
+          collection(db, "trusted_companies"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+          const updatedTrustedCompanies = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          // Update state and local storage
+          setTrustedCompanies(updatedTrustedCompanies);
+          localStorage.setItem(
+            "trustedCompanies",
+            JSON.stringify(updatedTrustedCompanies)
+          );
+
+          return () => {
+            snapshotTrustedCompanies();
+          };
+        }
+      );
+    } catch (error) {
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    }
+  };
+
+  const fetchCoursesFromFirestore = async () => {
+    try {
+      const snapshotCourses = onSnapshot(
+        collection(db, "courses"),
+        (snapshot) => {
+          const updatedCourses = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          setCourses(updatedCourses);
+          localStorage.setItem("courses", JSON.stringify(updatedCourses));
+        }
+      );
+
+      return () => {
+        snapshotCourses();
+      };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
+    const storedTrustedCompanies = localStorage.getItem("trustedCompanies");
+    const storedCourses = localStorage.getItem("courses");
+
+    if (storedTrustedCompanies) {
+      setTrustedCompanies(JSON.parse(storedTrustedCompanies));
+    } else {
+      fetchTrustedCompaniesFromFirestore();
+    }
+
     const unsubscribeTrustedCompanies = onSnapshot(
       query(collection(db, "trusted_companies"), orderBy("timestamp", "desc")),
-      (snapshot) => {
-        const updatedTrustedCompanies = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setTrusetdCompanies(updatedTrustedCompanies);
+      () => {
+        fetchTrustedCompaniesFromFirestore();
       }
     );
 
-    const unsubscribeCourses = onSnapshot(
-      collection(db, "courses"),
-      (snapshot) => {
-        const updatedCourses = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+    if (storedCourses) {
+      setCourses(JSON.parse(storedCourses));
+    } else {
+      fetchCoursesFromFirestore();
+    }
 
-        setCourses(updatedCourses);
-      }
-    );
+    const unsubscribeCourses = onSnapshot(collection(db, 'courses'), () => {
+      fetchCoursesFromFirestore();
+    })
 
     const unsubscribeInstructors = onSnapshot(
       collection(db, "instructors"),
@@ -367,6 +423,7 @@ const MainContextProvider = ({ children }) => {
   const context = {
     trustedComapnies,
     courses,
+    fetchTrustedCompaniesFromFirestore,
     addTrustedCompanies,
     addCourse,
     addLessonForCourse,

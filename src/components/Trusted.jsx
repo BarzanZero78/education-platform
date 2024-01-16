@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMainContext } from "../context/MainContext";
 
 const Trusted = () => {
-  const { trustedComapnies } = useMainContext();
+  const { trustedComapnies, fetchTrustedCompaniesFromFirestore } = useMainContext();
+
+  useEffect(() => {
+    fetchTrustedCompaniesFromFirestore();
+  }, [fetchTrustedCompaniesFromFirestore]);
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 pt-10 bg-[#FBFBFB] w-full">

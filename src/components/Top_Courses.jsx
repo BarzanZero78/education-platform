@@ -1,17 +1,27 @@
-import React from "react";
-import HTMLLOGO from "../assets/img/html-5.png";
+import React, { useEffect } from "react";
 import { useMainContext } from "../context/MainContext";
 
 const Top_Courses = () => {
-  const { courses } = useMainContext();
+  const { courses, fetchCoursesWithLessons } = useMainContext();
+
+  useEffect(() => {
+    const storedCourses = localStorage.getItem("courses");
+
+    if (storedCourses) {
+      const parsedCourses = JSON.parse(storedCourses);
+      fetchCoursesWithLessons(parsedCourses); // Use the courses from local storage
+    } else {
+      fetchCoursesWithLessons(); // Fetch from Firestore if not available in local storage
+    }
+  }, [fetchCoursesWithLessons]);
 
   const specificCourses = courses.filter((course) => {
     return ["HTML - 5", "CSS", "JavaScript"].includes(course.courseName);
   });
 
   const handleSeeAllCourses = () => {
-    window.location.pathname = '/courses'
-  }
+    window.location.pathname = "/courses";
+  };
 
   return (
     <div className="flex flex-col justify-center items-center gap-7 pt-[20px]">
@@ -22,9 +32,15 @@ const Top_Courses = () => {
       </div>
       <div className="flex flex-wrap justify-center items-center gap-7">
         {specificCourses.map((specificCourse) => (
-          <div className="flex justify-center items-center gap-7" key={specificCourse.id}>
+          <div
+            className="flex justify-center items-center gap-7"
+            key={specificCourse.id}
+          >
             {specificCourse.isCoursePublished === true ? (
-              <a href={`/course/${specificCourse.courseName}`} className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow active:scale-95">
+              <a
+                href={`/course/${specificCourse.courseName}`}
+                className="flex flex-col justify-center items-center gap-3 bg-[#F7F7F7] w-[250px] h-[300px] rounded-xl p-3 cursor-pointer hover:bg-[#F2E6FE] hover:shadow-xl hover:drop-shadow-xl transform transition-shadow active:scale-95"
+              >
                 <div
                   className={`flex flex-col justify-center items-center bg-[#${specificCourse.courseBgColor}] rounded-full w-[90px] h-[90px] p-2`}
                 >
@@ -50,7 +66,10 @@ const Top_Courses = () => {
         ))}
       </div>
       <div>
-        <button onClick={handleSeeAllCourses} className="bg-[#4B1C82] text-white rounded-full py-2 px-5 cursor-pointer hover:opacity-90 active:scale-95">
+        <button
+          onClick={handleSeeAllCourses}
+          className="bg-[#4B1C82] text-white rounded-full py-2 px-5 cursor-pointer hover:opacity-90 active:scale-95"
+        >
           See All Courses
         </button>
       </div>
