@@ -8,15 +8,21 @@ import { useUserAuth } from "../../context/UserAuthContext";
 const Login_Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {  loginUser, googleSignIn, facebookSignIn } = useUserAuth();
+  const { loginUser, googleSignIn, facebookSignIn } = useUserAuth();
 
   const hanldeLogin = async () => {
     try {
+      if (email != "" && password != "") {
         await loginUser(email, password);
-    } catch(error) {
-        console.log(error.message);
+      } else if(email === '') {
+        alert("Please enter your email");
+      } else if(password === '') {
+        alert("Please enter your password");
+      }
+    } catch (error) {
+      console.log(error.message);
     }
-  }
+  };
 
   const hanldeGoogleSignIn = async () => {
     try {
@@ -70,12 +76,18 @@ const Login_Page = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-[400px] max-sm:w-[300px] p-2 border border-[#CECECE] rounded focus:outline-none"
             />
-            <Link to="/forgot_password" className="text-blue-600 active:scale-95">
+            <Link
+              to="/forgot_password"
+              className="text-blue-600 active:scale-95"
+            >
               Forgot password?
             </Link>
           </div>
 
-          <button onClick={hanldeLogin} className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85 focus:outline-none">
+          <button
+            onClick={hanldeLogin}
+            className="w-[300px] max-sm:w-[250px] active:scale-95 p-3 bg-blue-700 text-white cursor-pointer mx-auto rounded-lg hover:opacity-85 focus:outline-none"
+          >
             Login
           </button>
           <Link to="/register" className="text-blue-600 active:scale-95">

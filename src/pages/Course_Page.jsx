@@ -166,15 +166,13 @@ const Course_Page = () => {
               {courseDetails.isCoursePublished === true ? (
                 <div className="flex flex-col justify-center items-center gap-5">
                   <header
-                    className={`fixed top-0 left-0 w-full h-[60px] bg-white shadow-md flex justify-between items-center ${
-                      isIOS || isMacOs || isSafari ? "backdrop-blur-xl" : ""
-                    }`}
+                    className={`fixed top-0 left-0 w-full h-[60px] bg-white z-10 shadow-md flex justify-between items-center`}
                   >
                     <button
                       onClick={() => history.back()}
-                      className={`hover:bg-[#dfdada] rounded-full active:scale-95 cursor-pointer px-2 py-2 ${
-                        isIOS || isMacOs || isSafari
-                          ? "active:text-[#dfdada]"
+                      className={`hover:bg-[#dfdada] rounded-full active:scale-95 cursor-pointer px-2 py-2 select-none ${
+                        isIOS || isMacOs
+                          ? "active:opacity-30 hover:bg-[#fff]"
                           : ""
                       }`}
                     >

@@ -18,7 +18,9 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
 
   return (
     <div
-      className={`fixed top-[10%] right-[0.5%] bg-white shadow-md max-w-[400px] p-1 h-[150px] rounded-md overflow-y-auto ${
+      className={`fixed top-[10%] right-[0.5%] bg-white shadow-md max-w-[400px] p-1 h-[150px] ${
+        search.length > 1 ? "h-auto" : ""
+      } rounded-md overflow-y-auto ${
         isIOS || isMacOs || isSafari ? "backdrop-blur-xl" : ""
       }`}
     >
@@ -26,7 +28,7 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
         <input
           type="text"
           placeholder="Search For Courses..."
-          className="border rounded-md w-[370px] p-1"
+          className="border rounded-md w-[370px] p-1 focus:outline-none"
           value={search}
           onChange={hanldeSearch}
         />
@@ -38,28 +40,28 @@ const Search = ({ showSearchBar, setShowSearchBar }) => {
         </button>
       </div>
 
-      {searchCourses.map((searchCourse) => (
-        <a
-          href={`/course/${searchCourse.courseName}`}
-          key={searchCourse.id}
-          className="flex justify-between items-center cursor-pointer p-2 hover:bg-[#dfdada] w-[97%] mx-auto rounded-md active:scale-95"
-        >
-          <div>
-            <img
-              src={searchCourse.courseLogoURL}
-              alt=""
-              className="w-[30px] h-[30px] object-contain"
-            />
-          </div>
+      {searchCourses.map((searchCourse, index) => (
+          <a
+            href={`/course/${searchCourse.courseName}`}
+            key={index}
+            className="flex justify-between items-center cursor-pointer p-2 hover:bg-[#dfdada] w-[97%] mx-auto rounded-md active:scale-95"
+          >
+            <div>
+              <img
+                src={searchCourse.courseLogoURL}
+                alt=""
+                className="w-[30px] h-[30px] object-contain"
+              />
+            </div>
 
-          <div>
-            <p>{searchCourse.courseName}</p>
-          </div>
+            <div>
+              <p>{searchCourse.courseName}</p>
+            </div>
 
-          <div>
-            <p>{searchCourse.coursePrice}$</p>
-          </div>
-        </a>
+            <div>
+              <p>{searchCourse.coursePrice}$</p>
+            </div>
+          </a>
       ))}
     </div>
   );

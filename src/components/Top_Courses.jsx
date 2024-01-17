@@ -27,7 +27,7 @@ const Top_Courses = () => {
     <div className="flex flex-col justify-center items-center gap-7 pt-[20px]">
       <div>
         <h1 className="text-2xl font-bold">
-          Choose Favourite Courses From Top Categories
+          Choose Favourite Courses From Top Courses
         </h1>
       </div>
       <div className="flex flex-wrap justify-center items-center gap-7">

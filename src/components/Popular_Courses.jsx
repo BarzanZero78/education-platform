@@ -59,12 +59,12 @@ const Popular_Courses = () => {
           See Our top quality Popular Courses
         </h1>
       </div>
-      <div className="flex flex-col justify-center items-center gap-14 pt-[80px] px-10">
+      <div className="flex flex-col justify-center items-center gap-14 pt-[80px] px-10 w-full mx-auto overflow-x-hidden overflow-y-hidden">
         <div className="flex justify-center items-center gap-5 p-2">
           {courses
             .slice(currentIndex, currentIndex + 3)
             .map((course, index) => (
-              <div key={index} className="w-[90%] mx-auto">
+              <div key={index} className="">
                 {course.isCoursePublished === true ? (
                   <a
                     href={`/course/${course.courseName}`}

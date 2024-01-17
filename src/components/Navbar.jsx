@@ -3,7 +3,13 @@ import { useUserAuth } from "../context/UserAuthContext";
 import Logo from "../assets/img/Logo.png";
 import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
-import { isAndroid, isIOS, isWindows, isMacOs } from "react-device-detect";
+import {
+  isAndroid,
+  isIOS,
+  isWindows,
+  isMacOs,
+  isSafari,
+} from "react-device-detect";
 
 const Navbar = () => {
   const { getUserData } = useUserAuth();
@@ -11,6 +17,13 @@ const Navbar = () => {
   const location = useLocation();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [openNav, setOpenNav] = useState(false);
+
+  useEffect(() => {
+    // Close the navigation when the location changes
+    setOpenNav(false);
+  }, [location]);
+
+  const navHeight = 60;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,7 +46,7 @@ const Navbar = () => {
   }
 
   return (
-    <>
+    <div className="">
       {userData ? (
         <header
           className={`bg-[#49228C] w-full h-[60px] flex justify-between items-center px-2 ${
@@ -47,7 +60,13 @@ const Navbar = () => {
         >
           <div className="">
             <Link to="/">
-              <img src={Logo} alt="" width="150px" height="150px" className="active:scale-95" />
+              <img
+                src={Logo}
+                alt=""
+                width="150px"
+                height="150px"
+                className="active:scale-95"
+              />
             </Link>
           </div>
 
@@ -58,7 +77,7 @@ const Navbar = () => {
                 location.pathname.includes("instructor") ||
                 location.pathname === "/profile" ||
                 location.pathname === "/contact_us"
-                  ? "text-black"
+                  ? "text-black bg-white"
                   : ""
               }`}
             >
@@ -151,10 +170,11 @@ const Navbar = () => {
                   "/instructor" ||
                     location.pathname === "/profile" ||
                     location.pathname === "/contact_us"
-                    ? "bg-white shadow-xl"
+                    ? 'bg-white'
                     : ""
                 )
               }`}
+              style={{ zIndex: 1000 }}
             >
               <ul
                 className={`flex flex-col justify-start p-2 items-start gap-5 text-white ${
@@ -162,7 +182,7 @@ const Navbar = () => {
                   location.pathname.includes("instructor") ||
                   location.pathname === "/profile" ||
                   location.pathname === "/contact_us"
-                    ? "text-black bg-white"
+                    ? `text-black shadow-xl bg-white`
                     : ""
                 }`}
               >
@@ -259,41 +279,31 @@ const Navbar = () => {
               </button>
             </div>
 
-            {showSearchBar && (
-              <Search
-                showSearchBar={showSearchBar}
-                setShowSearchBar={setShowSearchBar}
-              />
-            )}
+            <div className="" style={{ zIndex: 1 }}>
+              {showSearchBar && (
+                <div className="">
+                  <Search
+                    showSearchBar={showSearchBar}
+                    setShowSearchBar={setShowSearchBar}
+                  />
+                </div>
+              )}
+            </div>
 
             <div className="flex flex-row-reverse justify-center items-center gap-2">
               <button
-                className="cursor-pointer lg:hidden"
+                className={`cursor-pointer lg:hidden`}
                 onClick={() => setOpenNav(!openNav)}
               >
                 {openNav ? (
                   <span
-                    className={`material-icons text-white text-xl ${
-                      location.pathname === "/courses" ||
-                      location.pathname.includes("instructor") ||
-                      location.pathname === "/profile" ||
-                      location.pathname === "/contact_us"
-                        ? "text-black"
-                        : ""
-                    }`}
+                    className={`material-icons text-white text-xl bg-[#8773AA] rounded-full text-center w-[30px] h-[30px] active:scale-95`}
                   >
                     close
                   </span>
                 ) : (
                   <span
-                    className={`material-icons text-white text-xl ${
-                      location.pathname === "/courses" ||
-                      location.pathname.includes("instructor") ||
-                      location.pathname === "/profile" ||
-                      location.pathname === "/contact_us"
-                        ? "text-black"
-                        : ""
-                    }`}
+                    className={`material-icons text-white text-xl bg-[#8773AA] rounded-full text-center w-[30px] h-[30px] active:scale-95`}
                   >
                     menu
                   </span>
@@ -322,7 +332,7 @@ const Navbar = () => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 
